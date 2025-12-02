@@ -47,6 +47,13 @@ const feedbackText = document.getElementById('feedback-text');
 const questionCountBadge = document.getElementById('question-count');
 
 function startGame() {
+    if (!isMusicPlaying) {
+        bgMusic.volume = 0.3; // Ses seviyesi %30 (Çok bağırmasın)
+        bgMusic.play().then(() => {
+            isMusicPlaying = true;
+            musicBtn.innerText = "🔊";
+        }).catch(e => console.log("Otomatik oynatma engellendi"));
+    }
     score = 0;
     currentQuestionIndex = 0;
     availableQuestions = [...questions];
@@ -193,5 +200,21 @@ function launchConfetti() {
                 requestAnimationFrame(frame);
             }
         }());
+    }
+}
+// Müzik Kontrol Fonksiyonları
+const bgMusic = document.getElementById('bg-music');
+const musicBtn = document.getElementById('music-control');
+let isMusicPlaying = false;
+
+function toggleMusic() {
+    if (isMusicPlaying) {
+        bgMusic.pause();
+        musicBtn.innerText = "🔇"; // Ses kapalı ikonu
+        isMusicPlaying = false;
+    } else {
+        bgMusic.play();
+        musicBtn.innerText = "🔊"; // Ses açık ikonu
+        isMusicPlaying = true;
     }
 }
