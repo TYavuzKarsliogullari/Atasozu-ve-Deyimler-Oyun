@@ -1,0 +1,282 @@
+:root {
+    --primary: #6C63FF;
+    --secondary: #FF6584;
+    --accent: #43D9AD;
+    --dark: #2F2E41;
+    --light: #FFFFFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* Mobilde tıklama mavisini kaldırır */
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 20px;
+    color: var(--dark);
+}
+
+/* Hareketli Arka Plan */
+.bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    z-index: -1;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Glassmorphism Konteyner */
+.container {
+    width: 100%;
+    max-width: 450px;
+    min-height: 550px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 30px;
+    padding: 30px 20px;
+    text-align: center;
+    transition: height 0.3s ease;
+}
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    animation: fadeIn 0.5s ease;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* Logo ve Başlıklar */
+.logo {
+    width: 120px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2));
+}
+
+.title {
+    font-family: 'Fredoka', sans-serif;
+    color: var(--dark);
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+.title span {
+    color: var(--primary);
+    font-size: 2.5rem;
+    display: block;
+}
+
+.description {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* Butonlar */
+button {
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    border: none;
+    outline: none;
+    user-select: none;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    padding: 18px 50px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    box-shadow: 0 10px 20px rgba(108, 99, 255, 0.3);
+    transition: transform 0.2s;
+    width: 100%;
+}
+
+.btn-primary:active {
+    transform: scale(0.95);
+}
+
+/* Soru Kartı */
+.question-card {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 20px 0;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+.question-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+/* Şıklar */
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.option-btn {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 0.95rem;
+    color: #555;
+    text-align: center;
+    border: 2px solid transparent;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.option-btn:active {
+    transform: scale(0.98);
+}
+
+.option-btn.correct {
+    background: #d1fae5;
+    border-color: #10b981;
+    color: #065f46;
+    font-weight: bold;
+}
+
+.option-btn.wrong {
+    background: #fee2e2;
+    border-color: #ef4444;
+    color: #991b1b;
+    opacity: 0.7;
+}
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    height: 10px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(67, 217, 173, 0.5);
+}
+
+.badge {
+    background: rgba(0,0,0,0.05);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #666;
+}
+
+/* Sonuç Ekranı */
+.score-box {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 20px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.score-label {
+    font-size: 0.9rem;
+    color: #888;
+    letter-spacing: 2px;
+}
+
+.score-number {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.result-icon {
+    font-size: 5rem;
+    margin-bottom: 10px;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Animasyonlar */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.animate-bounce { animation: bounce 2s infinite; }
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse-anim { animation: pulse 2s infinite; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Mobilde küçük ekran düzeltmeleri */
+@media (max-height: 700px) {
+    .container { padding: 20px; }
+    .logo { width: 80px; }
+    .title { font-size: 1.5rem; }
+    .title span { font-size: 2rem; }
+}
