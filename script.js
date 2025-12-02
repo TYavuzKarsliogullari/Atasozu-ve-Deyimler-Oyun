@@ -1,4 +1,32 @@
-// SORULAR (Senin attığın liste birebir aynı)
+// MÜZİK KONTROL VE SORULAR
+const bgMusic = document.getElementById('bg-music');
+const musicBtn = document.getElementById('music-control');
+let isMusicPlaying = false;
+
+// Müziği Aç/Kapa Fonksiyonu
+function toggleMusic() {
+    if (bgMusic.paused) {
+        bgMusic.volume = 0.4; // Ses seviyesi %40
+        const playPromise = bgMusic.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                isMusicPlaying = true;
+                musicBtn.innerText = "🔊";
+            })
+            .catch(error => {
+                console.log("Müzik çalma hatası:", error);
+                alert("Müzik dosyası (muzik.mp3) bulunamadı veya tarayıcı izin vermedi.");
+            });
+        }
+    } else {
+        bgMusic.pause();
+        isMusicPlaying = false;
+        musicBtn.innerText = "🔇";
+    }
+}
+
+// SORU LİSTESİ
 const questions = [
     { text: "Gireni çıkanı çok olan, kimin gelip gittiği belli olmayan yer.", answer: "Dingo'nun ahırı" },
     { text: "Çok sevinmek.", answer: "Etekleri zil çalmak" },
@@ -6,15 +34,15 @@ const questions = [
     { text: "Bir işin ya da olayın artık çok geç kalındığını, faydasının olmadığını ifade eder.", answer: "Üsküdar'da sabah oldu" },
     { text: "Sonradan geldiği bir yerde, kendinden önce gelen kişinin yerini almaya çalışmak.", answer: "Dağdan gelip bağdakini kovmak" },
     { text: "Daha iyisini elde etmek uğruna çalışırken elindekilerini de yitirmek.", answer: "Dimyat'a pirince giderken evdeki bulgurdan olmak" },
-    { text: "birileri için çok özveri ile çalışıp hizmet etmek.", answer: "Saçını süpürge etmek" },
+    { text: "Birileri için çok özveri ile çalışıp hizmet etmek.", answer: "Saçını süpürge etmek" },
     { text: "Evini barkını yıkmak, ocağını söndürmek.", answer: "Ocağına incir ağacı dikmek" },
     { text: "Gerektiğinden çok önce veya henüz ortada hiçbir şey yokken hazırlanmaya kalkışmak.", answer: "Dereyi görmeden paçaları sıvamak" },
     { text: "Her zaman bir arada bulunan, arkadaşlık eden kimseler birbirlerinin huylarından etkilenerek benzer hale gelirler.", answer: "Üzüm üzüme baka baka kararır" },
     { text: "Bir kişinin kırgınlık veya tepkisinin karşı tarafça fark edilmemesi durumunu anlatır.", answer: "Tavşan dağa küsmüş, dağın haberi yok" },
     { text: "İki ortak veya taraf arasındaki yakınlığın dayandığı sebep yok olduğunda bu yakınlık da çözülür.", answer: "Öküz öldü ortaklık bozuldu" },
     { text: "Hile ve dalavere ile iş yapmak.", answer: "Dolap çevirmek" },
-    { text: "Bir kişiye, yaptığı yanlışın cezasını ağır bir şekilde vermek.", answer: "Eşek sudan gelinceye kadar dövmek" },
-    { text: "Sadece konuşmakla,vaatlerde bulunmakla iş yürümez bir şeyin olması için emek ve çaba gerekir.", answer: "Lafla peynir gemisi yürümez" },
+    { text: "Bir kişiyi, yaptığı yanlışın cezasını ağır bir şekilde vermek.", answer: "Eşek sudan gelinceye kadar dövmek" },
+    { text: "Sadece konuşmakla, vaatlerde bulunmakla iş yürümez bir şeyin olması için emek ve çaba gerekir.", answer: "Lafla peynir gemisi yürümez" },
     { text: "Davranış ve yetenekleriyle ilgi ve önem kazanmak.", answer: "Göze girmek" },
     { text: "Birinin başına gelen kötü bir durum senin de başına gelebilir.", answer: "Gülme komşuna gelir başına" },
     { text: "İnsan, kendi ortamında veya kendi işinde öne çıkar, değer görür.", answer: "Her horoz kendi çöplüğünde öter" },
@@ -47,13 +75,15 @@ const feedbackText = document.getElementById('feedback-text');
 const questionCountBadge = document.getElementById('question-count');
 
 function startGame() {
+    // Müziği başlat
     if (!isMusicPlaying) {
-        bgMusic.volume = 0.3; // Ses seviyesi %30 (Çok bağırmasın)
+        bgMusic.volume = 0.4;
         bgMusic.play().then(() => {
             isMusicPlaying = true;
             musicBtn.innerText = "🔊";
-        }).catch(e => console.log("Otomatik oynatma engellendi"));
+        }).catch(e => console.log("Otomatik oynatma tarayıcı tarafından engellendi, butona basılması lazım."));
     }
+
     score = 0;
     currentQuestionIndex = 0;
     availableQuestions = [...questions];
@@ -76,12 +106,10 @@ function showQuestion() {
     questionText.innerText = currentQuestion.text;
     questionCountBadge.innerText = `Soru ${questions.length - availableQuestions.length + 1} / ${questions.length}`;
     
-    // Animasyon resetleme
     questionText.classList.remove('animate-fade');
     void questionText.offsetWidth; 
     questionText.classList.add('animate-fade');
     
-    // Progress Bar
     const progressPercent = ((questions.length - availableQuestions.length) / questions.length) * 100;
     progressBar.style.width = `${progressPercent}%`;
 
@@ -102,7 +130,7 @@ function showQuestion() {
         btn.innerText = option;
         btn.classList.add('option-btn');
         btn.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
-        btn.style.opacity = '0'; // Animasyonla gelecek
+        btn.style.opacity = '0';
         btn.addEventListener('click', () => selectOption(btn, currentQuestion.answer));
         optionsContainer.appendChild(btn);
     });
@@ -127,14 +155,8 @@ function selectOption(selectedBtn, correctAnswer) {
         });
     }
 
-    // Soruyu listeden çıkar ki tekrar gelmesin (eğer isteniyorsa)
-    // availableQuestions.splice(currentQuestionIndex, 1);
-    // NOT: Senin orijinal mantığın array'i sırayla gezmekti, o yüzden array'i azaltmıyorum, index arttırıyorum.
-    
     setTimeout(() => {
-        // availableQuestions arrayini eksiltiyoruz ki sayaç düzgün çalışsın
         availableQuestions.shift(); 
-
         if (availableQuestions.length > 0) {
             showQuestion();
         } else {
@@ -153,7 +175,7 @@ function endGame() {
     if (score === questions.length) {
         feedbackText.innerText = "EFSANESİN! Hepsini bildin! 🌟";
         resultIcon.innerText = "🏆";
-        launchConfetti(); // Konfeti Patlat!
+        launchConfetti();
     } else if (score > questions.length * 0.8) {
         feedbackText.innerText = "Çok iyisin! Tebrikler!";
         resultIcon.innerText = "🎉";
@@ -174,7 +196,6 @@ function shuffleArray(array) {
     }
 }
 
-// Konfeti Efekti Fonksiyonu
 function launchConfetti() {
     if (typeof confetti === 'function') {
         var duration = 3000;
@@ -200,21 +221,5 @@ function launchConfetti() {
                 requestAnimationFrame(frame);
             }
         }());
-    }
-}
-// Müzik Kontrol Fonksiyonları
-const bgMusic = document.getElementById('bg-music');
-const musicBtn = document.getElementById('music-control');
-let isMusicPlaying = false;
-
-function toggleMusic() {
-    if (isMusicPlaying) {
-        bgMusic.pause();
-        musicBtn.innerText = "🔇"; // Ses kapalı ikonu
-        isMusicPlaying = false;
-    } else {
-        bgMusic.play();
-        musicBtn.innerText = "🔊"; // Ses açık ikonu
-        isMusicPlaying = true;
     }
 }

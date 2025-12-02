@@ -8,21 +8,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <audio id="bg-music" loop>
-    <source src="muzik.mp3" type="audio/mpeg">
-</audio>
-
-<button id="music-control" class="music-btn" onclick="toggleMusic()">🔇</button>
     <div class="bg-animation"></div>
+
+    <audio id="bg-music" loop>
+        <source src="muzik.mp3" type="audio/mpeg">
+    </audio>
+    <button id="music-control" class="music-btn" onclick="toggleMusic()">🔇</button>
 
     <div class="container glass-effect">
         
         <div id="start-screen" class="screen active">
-            <img src="logo.png" alt="Logo" class="logo animate-bounce">
+            <img src="logo.png" alt="Okul Logosu" class="logo animate-bounce">
+            
             <h1 class="title">Deyim & Atasözü<br><span>AVCISI</span></h1>
-            <p class="description">Bakalım Türkçene ne kadar güveniyorsun?</p>
+            <p class="description">Servetiye Cephesi Anadolu Lisesi</p>
             <div class="icon-decoration">🎓</div>
-            <button onclick="startGame()" class="btn-primary pulse-anim">OYUNA BAŞLA</button>
+            <button onclick="startGame()" class="btn-primary pulse-anim">OYUNA BAŞLA ▶</button>
         </div>
 
         <div id="game-screen" class="screen">
@@ -36,7 +37,7 @@
 
             <div class="question-card">
                 <div class="question-icon">🤔</div>
-                <h2 id="question-text">Soru buraya gelecek</h2>
+                <h2 id="question-text">Soru yükleniyor...</h2>
             </div>
 
             <div class="options-container" id="options-container">
